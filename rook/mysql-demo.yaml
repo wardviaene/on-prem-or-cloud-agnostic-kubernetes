@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-mysql
+  labels:
+    app: demo
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: demo
+    tier: mysql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: demo
+spec:
+  storageClassName: rook-block
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-mysql
+  labels:
+    app: demo
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: demo
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: changeme
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
