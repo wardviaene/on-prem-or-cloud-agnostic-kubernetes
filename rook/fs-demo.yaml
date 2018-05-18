@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu
+spec:
+  containers:
+  - image: ubuntu:latest
+    name: ubuntu
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 300; done;" ]
+    volumeMounts:
+    - name: fs-store
+      mountPath: /data
+  volumes:
+  - name: fs-store
+    flexVolume:
+      driver: rook.io/rook
+      fsType: ceph
+      options:
+        fsName: myfs 
+        clusterNamespace: rook
+        clusterName: rook
+
