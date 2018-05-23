@@ -5,3 +5,9 @@ You can download the latest release from https://github.com/kubernetes/helm/rele
 ```
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 ```
+
+# init helm
+
+```
+helm init --service-account tiller
+```
