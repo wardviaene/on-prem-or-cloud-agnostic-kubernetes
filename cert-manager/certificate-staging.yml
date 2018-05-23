@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: myapp
+  namespace: default
+spec:
+  secretName: myapp-tls-staging
+  issuerRef:
+    name: myapp-letsncrypt-staging
+  commonName: myapp.newtech.academy
+  #dnsNames:
+  #- www.myapp.newtech.academy
+  acme:
+    config:
+    - http01:
+        ingress: myapp
+      domains:
+      - myapp.newtech.academy
+      #- www.myapp.newtech.academy

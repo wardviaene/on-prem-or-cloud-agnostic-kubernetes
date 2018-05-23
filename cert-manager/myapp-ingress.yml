@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: myapp
+  namespace: default
+spec:
+  #tls:
+  #- secretName: myapp-tls-staging
+  #  hosts:
+  #  - myapp.newtech.academy
+  rules:
+    - host: myapp.newtech.academy
+      http:
+        paths:
+          - backend:
+              serviceName: myapp
+              servicePort: 80
+            path: /
+
