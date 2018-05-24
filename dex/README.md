@@ -47,7 +47,13 @@ export MY_IP=$(curl -s ifconfig.co)
 Add user:
 ```
 kubectl create -f user.yaml
-kubectl config set-credentials developer --token $TOKEN
+#kubectl config set-credentials developer --token ${TOKEN}
+kubectl config set-credentials developer --auth-provider=oidc --auth-provider-arg=idp-issuer-url=https://dex.newtech.academy:32000 --auth-provider-arg=client-id=example-app --auth-provider-arg=idp-certificate-authority=/etc/kubernetes/pki/openid-ca.pem  --auth-provider-arg=id-token=${TOKEN}
 kubectl config set-context dev-default --cluster=kubernetes --namespace=default --user=developer
 kubectl config use-context dev-default
+```
+
+LDAP config
+```
+sudo apt-get -y install slapd ldap-utils gnutls-bin ssl-cert
 ```

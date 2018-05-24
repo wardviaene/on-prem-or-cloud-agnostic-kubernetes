@@ -1,0 +1,44 @@
+dn: ou=People,dc=example,dc=com
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Groups
+
+dn: cn=miners,ou=Groups,dc=example,dc=com
+objectClass: posixGroup
+cn: miners
+gidNumber: 5000
+
+dn: uid=john,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: john
+sn: Doe
+givenName: John
+cn: John Doe
+displayName: John Doe
+uidNumber: 10000
+gidNumber: 5000
+userPassword: johnldap
+gecos: John Doe
+loginShell: /bin/bash
+homeDirectory: /home/john
+
+dn: uid=serviceaccount,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: serviceaccount
+sn: serviceaccount
+givenName: serviceaccount
+cn: service account
+displayName: service account
+uidNumber: 99999
+gidNumber: 9999
+userPassword: serviceaccountldap
+gecos: Service Account
+loginShell: /bin/false
+homeDirectory: /home/serviceaccount
