@@ -135,11 +135,6 @@ data:
     - id: example-app
       redirectURIs:
       - 'https://dex.newtech.academy:32000/callback'
-      name: 'Example App'
-      secret: ZXhhbXBsZS1hcHAtc2VjcmV0
-    staticClients:
-    - id: example-app
-      redirectURIs:
       - 'http://178.62.90.238:5555/callback'
       name: 'Example App'
       secret: ZXhhbXBsZS1hcHAtc2VjcmV0
