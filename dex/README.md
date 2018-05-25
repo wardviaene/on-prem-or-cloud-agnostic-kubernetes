@@ -40,7 +40,7 @@ export PATH=$PATH:/usr/lib/go-1.9/bin
 go get github.com/coreos/dex
 make bin/example-app
 export MY_IP=$(curl -s ifconfig.co)
-./bin/example-app --issuer https://dex.newtech.academy:32000 --issuer-root-ca ../ssl/ca.pem --listen http://${MY_IP}:5555 --redirect-uri http://${MY_IP}:5555/callback
+./bin/example-app --issuer https://dex.newtech.academy:32000 --issuer-root-ca /etc/kubernetes/pki/openid-ca.pem --listen http://${MY_IP}:5555 --redirect-uri http://${MY_IP}:5555/callback
 ```
 
 # Add user:
@@ -50,6 +50,12 @@ kubectl create -f user.yaml
 kubectl config set-credentials developer --auth-provider=oidc --auth-provider-arg=idp-issuer-url=https://dex.newtech.academy:32000 --auth-provider-arg=client-id=example-app --auth-provider-arg=idp-certificate-authority=/etc/kubernetes/pki/openid-ca.pem  --auth-provider-arg=id-token=${TOKEN}
 kubectl config set-context dev-default --cluster=kubernetes --namespace=default --user=developer
 kubectl config use-context dev-default
+```
+
+# Auto-renewal of token
+For autorenewal, you need to share the client secret with the end-user (not recommended)
+```
+kubectl config set-credentials developer --auth-provider=oidc --auth-provider-arg=idp-issuer-url=https://dex.newtech.academy:32000 --auth-provider-arg=client-id=example-app --auth-provider-arg=idp-certificate-authority=/etc/kubernetes/pki/openid-ca.pem  --auth-provider-arg=id-token=${TOKEN} --auth-provider-arg=refresh-token=${REFRESH_TOKEN} --auth-provider-arg=client-secret=${CLIENT_SECRET}
 ```
 
 # LDAP config
