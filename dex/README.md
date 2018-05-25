@@ -68,6 +68,11 @@ sudo ldapmodify -H ldapi:// -Y EXTERNAL -f certinfo.ldif
 ldapadd -x -D cn=admin,dc=example,dc=com -W -f users.ldif 
 ```
 
+Edit /etc/default/slapd.conf
+```
+SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
+```
+
 create LDAP CA secret and change configmap
 ```
 kubectl create secret tls ldap01.example.com.tls -n dex --cert=/etc/ssl/certs/cacert.pem
