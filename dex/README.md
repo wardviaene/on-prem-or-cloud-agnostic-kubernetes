@@ -44,7 +44,7 @@ export MY_IP=$(curl -s ifconfig.co)
 ./bin/example-app --issuer https://dex.newtech.academy:32000 --issuer-root-ca ../ssl/ca.pem --listen http://${MY_IP}:5555 --redirect-uri http://${MY_IP}:5555/callback
 ```
 
-Add user:
+# Add user:
 ```
 kubectl create -f user.yaml
 #kubectl config set-credentials developer --token ${TOKEN}
@@ -53,7 +53,9 @@ kubectl config set-context dev-default --cluster=kubernetes --namespace=default 
 kubectl config use-context dev-default
 ```
 
-LDAP config
+# LDAP config
+
 ```
 sudo apt-get -y install slapd ldap-utils gnutls-bin ssl-cert
 ```
+

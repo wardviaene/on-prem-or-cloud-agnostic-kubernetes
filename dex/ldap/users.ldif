@@ -24,6 +24,7 @@ uidNumber: 10000
 gidNumber: 5000
 userPassword: johnldap
 gecos: John Doe
+mail: john@doe.inv
 loginShell: /bin/bash
 homeDirectory: /home/john
 

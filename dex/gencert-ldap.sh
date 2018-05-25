@@ -1,34 +1,48 @@
 #!/bin/bash
 
-mkdir -p ssl-ldap
+# from https://help.ubuntu.com/lts/serverguide/openldap-server.html
 
-cat << EOF > ssl-ldap/req.cnf
-[req]
-req_extensions = v3_req
-distinguished_name = req_distinguished_name
+set -x
 
-[req_distinguished_name]
+sudo sh -c "certtool --generate-privkey > /etc/ssl/private/cakey.pem"
 
-[ v3_req ]
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectAltName = @alt_names
+echo 'cn = Example Company
+ca
+cert_signing_key
+' > /tmp/ca.info
 
-[alt_names]
-DNS.1 = ldap.example.com
-EOF
+sudo mv /tmp/ca.info /etc/ssl/ca.info
 
-openssl genrsa -out ssl-ldap/ca-key.pem 2048
-openssl req -x509 -new -nodes -key ssl-ldap/ca-key.pem -days 10 -out ssl-ldap/ca.pem -subj "/CN=ldap"
+sudo certtool --generate-self-signed \
+--load-privkey /etc/ssl/private/cakey.pem \
+--template /etc/ssl/ca.info \
+--outfile /etc/ssl/certs/cacert.pem
 
-openssl genrsa -out ssl-ldap/key.pem 2048
-openssl req -new -key ssl-ldap/key.pem -out ssl-ldap/csr.pem -subj "/CN=kube-ca" -config ssl-ldap/req.cnf
-openssl x509 -req -in ssl-ldap/csr.pem -CA ssl-ldap/ca.pem -CAkey ssl-ldap/ca-key.pem -CAcreateserial -out ssl-ldap/cert.pem -days 10 -extensions v3_req -extfile ssl-ldap/req.cnf
+sudo certtool --generate-privkey \
+--bits 1024 \
+--outfile /etc/ssl/private/ldap01_slapd_key.pem
 
-# cp cert
-sudo cp ssl-ldap/ca.pem /etc/ssl/certs/ldap_ca_server.pem
-sudo cp ssl-ldap/cert.pem /etc/ssl/certs/ldap_server.pem
-sudo cp ssl-ldap/key.pem /etc/ssl/private/ldap_server.key
-sudo chgrp openldap /etc/ssl/private/ldap_server.key 
-sudo chmod 0640 /etc/ssl/private/ldap_server.key
+echo 'organization = Example Company
+cn = ldap01.example.com
+tls_www_server
+encryption_key
+signing_key
+expiration_days = 3650' > /tmp/ldap01.info
+
+sudo mv /tmp/ldap01.info /etc/ssl/ldap01.info
+
+sudo certtool --generate-certificate \
+--load-privkey /etc/ssl/private/ldap01_slapd_key.pem \
+--load-ca-certificate /etc/ssl/certs/cacert.pem \
+--load-ca-privkey /etc/ssl/private/cakey.pem \
+--template /etc/ssl/ldap01.info \
+--outfile /etc/ssl/certs/ldap01_slapd_cert.pem
+
+sudo chgrp openldap /etc/ssl/private/ldap01_slapd_key.pem
+sudo chmod 0640 /etc/ssl/private/ldap01_slapd_key.pem
+sudo gpasswd -a openldap ssl-cert
+
+sudo sh -c "cat /etc/ssl/certs/cacert.pem >> /etc/ssl/certs/ca-certificates.crt"
+
+sudo systemctl restart slapd.service
 

@@ -50,6 +50,10 @@ spec:
         app: dex
     spec:
       serviceAccountName: dex
+      hostAliases:
+      - ip: "127.1.2.3"
+        hostnames:
+        - "ldap01.example.com"
       containers:
       - image: quay.io/coreos/dex:v2.10.0
         name: dex
@@ -64,6 +68,8 @@ spec:
           mountPath: /etc/dex/cfg
         - name: tls
           mountPath: /etc/dex/tls
+        - name: ldap-tls
+          mountPath: /etc/dex/ldap-tls
 
         env:
         - name: GITHUB_CLIENT_ID
@@ -86,6 +92,21 @@ spec:
       - name: tls
         secret:
           secretName: dex.newtech.academy.tls
+      - name: ldap-tls
+        configMap:
+          name: ldap-tls
+          items:
+          - key: cacert.pem
+            path: cacert.pem
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ldap-tls
+  namespace: dex
+data:
+  cacert.pem: |
+    empty
 ---
 kind: ConfigMap
 apiVersion: v1

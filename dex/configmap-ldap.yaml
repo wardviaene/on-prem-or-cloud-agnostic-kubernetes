@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dex
+  namespace: dex
+data:
+  config.yaml: |
+    issuer: https://dex.newtech.academy:32000
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+    web:
+      https: 0.0.0.0:5556
+      tlsCert: /etc/dex/tls/tls.crt
+      tlsKey: /etc/dex/tls/tls.key
+    connectors:
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: $GITHUB_CLIENT_ID
+        clientSecret: $GITHUB_CLIENT_SECRET
+        redirectURI: https://dex.newtech.academy:32000/callback
+        org: kubernetes
+    - type: ldap
+      id: ldap
+      name: LDAP
+      config:
+        host: ldap01.example.com:636
+        rootCA: /etc/dex/ldap-tls/cacert.pem
+
+        # The DN and password for an application service account. The connector uses
+        # these credentials to search for users and groups. Not required if the LDAP
+        # server provides access for anonymous auth.
+        # Please note that if the bind password contains a `$`, it has to be saved in an
+        # environment variable which should be given as the value to `bindPW`.
+        bindDN: uid=serviceaccount,ou=People,dc=example,dc=com
+        bindPW: serviceaccountldap
+
+        # The attribute to display in the provided password prompt. If unset, will
+        # display "Username"
+        usernamePrompt: SSO Username
+
+        # User search maps a username and password entered by a user to a LDAP entry.
+        userSearch:
+          # BaseDN to start the search from. It will translate to the query
+          # "(&(objectClass=person)(uid=<username>))".
+          baseDN: ou=People,dc=example,dc=com
+          # Optional filter to apply when searching the directory.
+          filter: "(objectClass=inetOrgPerson)"
+
+          # username attribute used for comparing user entries. This will be translated
+          # and combined with the other filter as "(<attr>=<username>)".
+          username: uid
+          # The following three fields are direct mappings of attributes on the user entry.
+          # String representation of the user.
+          idAttr: uid
+          # Required. Attribute to map to Email.
+      id: ldap
+      name: LDAP
+      config:
+        host: ldap01.example.com:636
+        rootCA: /etc/dex/ldap-tls/cacert.pem
+
+        # The DN and password for an application service account. The connector uses
+        # these credentials to search for users and groups. Not required if the LDAP
+        # server provides access for anonymous auth.
+        # Please note that if the bind password contains a `$`, it has to be saved in an
+        # environment variable which should be given as the value to `bindPW`.
+        bindDN: uid=serviceaccount,ou=People,dc=example,dc=com
+        bindPW: serviceaccountldap
+
+        # The attribute to display in the provided password prompt. If unset, will
+        # display "Username"
+        usernamePrompt: SSO Username
+
+        # User search maps a username and password entered by a user to a LDAP entry.
+        userSearch:
+          # BaseDN to start the search from. It will translate to the query
+          # "(&(objectClass=person)(uid=<username>))".
+          baseDN: ou=People,dc=example,dc=com
+          # Optional filter to apply when searching the directory.
+          filter: "(objectClass=inetOrgPerson)"
+
+          # username attribute used for comparing user entries. This will be translated
+          # and combined with the other filter as "(<attr>=<username>)".
+          username: uid
+          # The following three fields are direct mappings of attributes on the user entry.
+          # String representation of the user.
+          idAttr: uid
+          # Required. Attribute to map to Email.
+          emailAttr: mail
+          # Maps to display name of users. No default value.
+          nameAttr: cn
+
+        # Group search queries for groups given a user entry.
+        groupSearch:
+          # BaseDN to start the search from. It will translate to the query
+          # "(&(objectClass=group)(member=<user uid>))".
+          baseDN: ou=Groups,dc=example,dc=com
+          # Optional filter to apply when searching the directory.
+          filter: "(objectClass=group)"
+
+          # Following two fields are used to match a user to a group. It adds an additional
+          # requirement to the filter that an attribute in the group must match the user's
+          # attribute value.
+          userAttr: uid
+          groupAttr: member
+
+          # Represents group name.
+          nameAttr: name
+    oauth2:
+      skipApprovalScreen: true
+    staticClients:
+    - id: example-app
+      redirectURIs:
+      - 'http://178.62.90.238:5555/callback'
+      name: 'Example App'
+      secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+    enablePasswordDB: false
