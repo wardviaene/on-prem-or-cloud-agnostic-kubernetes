@@ -2,8 +2,6 @@
 
 Create certificate:
 ```
-wget https://raw.githubusercontent.com/coreos/dex/v2.10.0/examples/k8s/gencert.sh
-chmod +x gencert.sh
 ./gencert.sh
 kubectl create secret tls dex.newtech.academy.tls -n dex --cert=ssl/cert.pem --key=ssl/key.pem
 cp ssl/ca.pem /etc/kubernetes/pki/openid-ca.pem
