@@ -57,39 +57,6 @@ data:
           # String representation of the user.
           idAttr: uid
           # Required. Attribute to map to Email.
-      id: ldap
-      name: LDAP
-      config:
-        host: ldap01.example.com:636
-        rootCA: /etc/dex/ldap-tls/cacert.pem
-
-        # The DN and password for an application service account. The connector uses
-        # these credentials to search for users and groups. Not required if the LDAP
-        # server provides access for anonymous auth.
-        # Please note that if the bind password contains a `$`, it has to be saved in an
-        # environment variable which should be given as the value to `bindPW`.
-        bindDN: uid=serviceaccount,ou=People,dc=example,dc=com
-        bindPW: serviceaccountldap
-
-        # The attribute to display in the provided password prompt. If unset, will
-        # display "Username"
-        usernamePrompt: SSO Username
-
-        # User search maps a username and password entered by a user to a LDAP entry.
-        userSearch:
-          # BaseDN to start the search from. It will translate to the query
-          # "(&(objectClass=person)(uid=<username>))".
-          baseDN: ou=People,dc=example,dc=com
-          # Optional filter to apply when searching the directory.
-          filter: "(objectClass=inetOrgPerson)"
-
-          # username attribute used for comparing user entries. This will be translated
-          # and combined with the other filter as "(<attr>=<username>)".
-          username: uid
-          # The following three fields are direct mappings of attributes on the user entry.
-          # String representation of the user.
-          idAttr: uid
-          # Required. Attribute to map to Email.
           emailAttr: mail
           # Maps to display name of users. No default value.
           nameAttr: cn
