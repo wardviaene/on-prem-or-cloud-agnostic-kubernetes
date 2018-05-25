@@ -63,14 +63,20 @@ kubectl config set-credentials developer --auth-provider=oidc --auth-provider-ar
 
 ```
 sudo apt-get -y install slapd ldap-utils gnutls-bin ssl-cert
+sudo dpkg-reconfigure slapd
 ./gencert-ldap.sh
-sudo ldapmodify -H ldapi:// -Y EXTERNAL -f certinfo.ldif
-ldapadd -x -D cn=admin,dc=example,dc=com -W -f users.ldif 
+sudo ldapmodify -H ldapi:// -Y EXTERNAL -f ldap/certinfo.ldif
+ldapadd -x -D cn=admin,dc=example,dc=com -W -f ldap/users.ldif 
 ```
 
 Edit (with sudo) /etc/default/slapd
 ```
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
+```
+and run:
+
+```
+sudo systemctl restart slapd.service
 ```
 
 create LDAP CA secret and change configmap
@@ -78,6 +84,7 @@ create LDAP CA secret and change configmap
 cat /etc/ssl/certs/cacert.pem
 kubectl edit configmap ldap-tls -n dex
 kubectl apply -f configmap-ldap.yaml
+kubectl edit deploy dex -n dex  # edit the ldap IP alias
 ```
 
 
