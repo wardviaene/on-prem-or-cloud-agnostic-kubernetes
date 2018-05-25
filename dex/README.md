@@ -3,6 +3,7 @@
 Create certificate:
 ```
 ./gencert.sh
+kubectl create -f dex-ns.yaml
 kubectl create secret tls dex.newtech.academy.tls -n dex --cert=ssl/cert.pem --key=ssl/key.pem
 cp ssl/ca.pem /etc/kubernetes/pki/openid-ca.pem
 ```
