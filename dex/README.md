@@ -5,7 +5,7 @@ Create certificate:
 ./gencert.sh
 kubectl create -f dex-ns.yaml
 kubectl create secret tls dex.newtech.academy.tls -n dex --cert=ssl/cert.pem --key=ssl/key.pem
-cp ssl/ca.pem /etc/kubernetes/pki/openid-ca.pem
+sudo cp ssl/ca.pem /etc/kubernetes/pki/openid-ca.pem
 ```
 
 Create secret:
@@ -35,6 +35,7 @@ deploy example app:
 ```
 sudo apt-get install make golang-1.9
 git clone https://github.com/coreos/dex.git
+cd dex
 git checkout v2.10.0
 export PATH=$PATH:/usr/lib/go-1.9/bin
 go get github.com/coreos/dex
@@ -62,5 +63,15 @@ kubectl config set-credentials developer --auth-provider=oidc --auth-provider-ar
 
 ```
 sudo apt-get -y install slapd ldap-utils gnutls-bin ssl-cert
+./gencert-ldap.sh
+sudo ldapmodify -H ldapi:// -Y EXTERNAL -f certinfo.ldif
+ldapadd -x -D cn=admin,dc=example,dc=com -W -f users.ldif 
 ```
+
+create LDAP CA secret and change configmap
+```
+kubectl create secret tls ldap01.example.com.tls -n dex --cert=/etc/ssl/certs/cacert.pem
+kubectl apply -f configmap-ldap.yaml
+```
+
 
