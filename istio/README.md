@@ -15,7 +15,7 @@ echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile # change 0
 cd istio-0.7.1 # change 0.7.1 in your version
 ```
 
-with no matual TLS authentication
+with no mutual TLS authentication
 ```
 kubectl apply -f install/kubernetes/istio.yaml
 ```
@@ -40,9 +40,9 @@ Add default route to v1:
 istioctl create -f samples/bookinfo/routing/route-rule-all-v1.yaml
 ```
 
-Route all traffic to v2
+Route traffic to v2 if rule matches
 ```
-istioctl create -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
+istioctl replace -f samples/bookinfo/routing/route-rule-reviews-test-v2.yaml
 ```
 
 Route 50% of traffic between v1 and v3:
