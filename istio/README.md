@@ -24,7 +24,7 @@ kubectl apply -f <(istioctl kube-inject --debug -f samples/bookinfo/kube/bookinf
 ```
 
 
-# traffic management
+# Traffic management
 
 Add default route to v1:
 ```
@@ -40,3 +40,19 @@ Route 50% of traffic between v1 and v3:
 ```
 istioctl replace -f samples/bookinfo/routing/route-rule-reviews-50-v3.yaml
 ```
+
+# Distributed tracing
+
+Enable zipkin:
+```
+kubectl apply -f install/kubernetes/addons/zipkin.yaml
+```
+
+Enable Jaeger:
+```
+kubectl delete -f install/kubernetes/addons/zipkin.yaml # if zipkin was installed, delete it first
+kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
+
+```
+
+
