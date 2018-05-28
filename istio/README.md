@@ -1,9 +1,15 @@
 # istio install
 
-install:
+download (0.7.1):
+```
+https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-linux.tar.gz
+echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile
+```
+
+Download (latest):
 ```
 curl -L https://git.io/getLatestIstio | sh -
-echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile
+echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile # change 0.7.1 in your version
 ```
 
 with no matual TLS authentication
@@ -54,5 +60,4 @@ kubectl delete -f install/kubernetes/addons/zipkin.yaml # if zipkin was installe
 kubectl apply -n istio-system -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml
 
 ```
-
 
