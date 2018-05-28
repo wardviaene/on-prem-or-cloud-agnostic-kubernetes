@@ -2,7 +2,9 @@
 
 download (0.7.1):
 ```
-https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-linux.tar.gz
+wget https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-linux.tar.gz
+tar -xzvf istio-0.7.1-linux.tar.gz
+cd istio-0.7.1
 echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile
 ```
 
@@ -10,6 +12,7 @@ Download (latest):
 ```
 curl -L https://git.io/getLatestIstio | sh -
 echo 'export PATH="$PATH:/home/ubuntu/istio-0.7.1/bin"' >> ~/.profile # change 0.7.1 in your version
+cd istio-0.7.1 # change 0.7.1 in your version
 ```
 
 with no matual TLS authentication
