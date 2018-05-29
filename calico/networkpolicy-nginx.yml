@@ -12,3 +12,6 @@ spec:
       - podSelector:
           matchLabels:
             app: access-nginx
+    ports:
+    - protocol: TCP
+      port: 80
