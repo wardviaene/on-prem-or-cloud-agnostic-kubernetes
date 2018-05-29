@@ -1,19 +1,23 @@
 # Vault
 
-## deploy etcd
+## deploy etcd operator
 ```
 kubectl create -f etcd-rbac.yaml 
 kubectl create -f etcd_crds.yaml
 kubectl create -f etcd-operator-deploy.yaml
 ```
 
-## deploy vault
+## deploy vault operator
 ```
 kubectl create -f vault-rbac.yaml 
 kubectl create -f vault_crd.yaml
 kubectl create -f vault-deployment.yaml
 ```
 
+## deploy vault + etcd cluster
+```
+kubectl create -f example_vault.yaml
+```
 
 ## install vault cli
 ```
