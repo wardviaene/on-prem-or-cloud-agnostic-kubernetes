@@ -7,5 +7,5 @@ kubectl create -f networkpolicy-nginx.yml
 ```
 
 ```
-kubectl run -it --rm -l app=nginx-access --image ubuntu bash
+kubectl run -it --rm -l app=access-nginx --image busybox busybox
 ```
