@@ -9,6 +9,8 @@ spec:
       app: nginx
   ingress:
     - from:
+    #- ipBlock:
+    #    cidr: 172.17.0.0/16
       - podSelector:
           matchLabels:
             app: access-nginx
