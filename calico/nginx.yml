@@ -19,7 +19,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld-service
+  name: nginx
+  labels:
+    app: nginx
 spec:
   ports:
   - port: 31001
