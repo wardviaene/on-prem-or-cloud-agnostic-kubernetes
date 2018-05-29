@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: etcd
+  name: vault
   namespace: default
 ---
 kind: Role
