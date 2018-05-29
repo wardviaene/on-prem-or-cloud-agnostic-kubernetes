@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+spec:
+  podSelector: 
+    matchLabels:
+      app: egress
+  policyTypes:
+  - Egress
+  egress:
+    - to:
+    - ipBlock:
+        cidr: 8.8.8.8/32
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+spec:
+  podSelector: 
+    matchLabels:
+      app: egress
+  policyTypes:
+  - Egress
+  egress:
+    # allow DNS resolution
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
