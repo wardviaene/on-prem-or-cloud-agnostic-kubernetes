@@ -36,9 +36,7 @@ apt-mark hold kubelet kubeadm kubectl;
 # DigitalOcean with firewall (VxLAN with Flannel) - could be resolved in the future by allowing IP-in-IP in the firewall settings
 echo "deploying kubernetes (with canal)...";
 if [[ $(curl -SsI http://169.254.169.254/metadata/v1/ | head -1 | grep 200) ]]; then
-	CL_ADDR=$(curl -Ss http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address);
-	PUBLIC_IP=$(curl -Ss http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address);
-	ANCHOR_IP=$(curl -Ss http://169.254.169.254/metadata/v1/interfaces/public/0/anchor_ipv4/address);
+	CL_ADDR=$(curl -Ss http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address);
 else
 	CL_ADDR=$(grep  "|--" /proc/net/fib_trie | grep -Pv "0.0.0.0|10.|127\.|\.255$|\.(1|0)$" | awk '{print $2}' | head -1);
 fi
