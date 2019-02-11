@@ -5,6 +5,7 @@ BOX_MEM = ENV['BOX_MEM'] || "1024"
 BOX_NAME =  ENV['BOX_NAME'] || "ubuntu/bionic64"
 PROVIDER = ENV['PROVIDER'] || "virtualbox"
 VAGRANTFILE_API_VERSION = "2"
+WORKER_COUNT = ENV['WORKER_COUNT'] || 3
 
 Vagrant.require_version ">= 1.8.0"
 
@@ -58,7 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     k8s_worker_02.vm.synced_folder ".", "/vagrant", disabled: false    
     k8s_worker_02.ssh.shell = "/bin/bash"    
     k8s_worker_02.ssh.forward_agent = true    
-    k8s_worker_02.vm.network :private_network, ip: "172.16.32.81"    
+    k8s_worker_02.vm.network :private_network, ip: "172.16.32.81"
     k8s_worker_02.vm.hostname = "k8s-worker-02.local"
     k8s_worker_02.vm.provider PROVIDER do |v|
       v.name = "k8s-worker-02"
