@@ -5,7 +5,6 @@ BOX_MEM = ENV['BOX_MEM'] || "1024"
 BOX_NAME =  ENV['BOX_NAME'] || "ubuntu/bionic64"
 PROVIDER = ENV['PROVIDER'] || "virtualbox"
 VAGRANTFILE_API_VERSION = "2"
-WORKER_COUNT = ENV['WORKER_COUNT'] || 3
 
 Vagrant.require_version ">= 1.8.0"
 
@@ -21,7 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.name = "k8s-master"
       v.customize ["modifyvm", :id, "--memory", BOX_MEM]
       v.customize ["modifyvm", :id, "--ioapic", "on"]
-      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--cpus", "1"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     k8s_master.vm.post_up_message = "K8s-master ready!"
@@ -43,7 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.name = "k8s-worker-01"
       v.customize ["modifyvm", :id, "--memory", BOX_MEM]
       v.customize ["modifyvm", :id, "--ioapic", "on"]
-      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--cpus", "1"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     k8s_worker_01.vm.post_up_message = "K8s-worker-01 ready!"
@@ -65,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.name = "k8s-worker-02"
       v.customize ["modifyvm", :id, "--memory", BOX_MEM]
       v.customize ["modifyvm", :id, "--ioapic", "on"]
-      v.customize ["modifyvm", :id, "--cpus", "2"]
+      v.customize ["modifyvm", :id, "--cpus", "1"]
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     k8s_worker_02.vm.post_up_message = "K8s-worker-02 ready!"
