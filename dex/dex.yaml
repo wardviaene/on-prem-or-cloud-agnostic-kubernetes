@@ -30,7 +30,7 @@ subjects:
   name: dex                 # Service account assigned to the dex pod.
   namespace: dex  # The namespace dex is running in.
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -39,6 +39,9 @@ metadata:
   namespace: dex
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: dex
   template:
     metadata:
       labels:
