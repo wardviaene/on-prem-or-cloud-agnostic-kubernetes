@@ -15,5 +15,18 @@ mkdir -p ~ubuntu/.kube
 sudo cp -i /etc/kubernetes/admin.conf ~ubuntu/.kube/config
 sudo chown ubuntu:ubuntu ~ubuntu/.kube/config
 
-echo "getting ready for cert-manager"
+echo "installing helm"
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+echo "setup helm"
+kubectl create -f $PWD/rbac-config.yml
+helm init --service-account tiller
+
+echo "setup ingress-controller"
+helm install --name my-ingress stable/nginx-ingress \
+    --set controller.kind=DaemonSet \
+    --set controller.service.type=NodePort \
+    --set controller.hostNetwork=true
+
+kubectl apply -f $PWD/cert-manager/myapp.yml
+kubectl apply -f $PWD/cert-manager/myapp-ingress.yml

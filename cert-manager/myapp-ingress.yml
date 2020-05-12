@@ -11,11 +11,10 @@ spec:
   #  hosts:
   #  - myapp.newtech.academy
   rules:
-    - host: myapp.newtech.academy
+    - host: myapp.carlosvalarezo.com
       http:
         paths:
           - backend:
               serviceName: myapp
               servicePort: 3000
             path: /
-
