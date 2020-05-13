@@ -1,19 +1,23 @@
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: myapp
-  namespace: default
+  namespace: cert-manager
 spec:
   secretName: myapp-tls-staging
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  organization:
+    - jetstack
+  keySize: 2048
+  keyAlgorithm: rsa
+  keyEncoding: pkcs1
+  usages:
+    - server auth
+    - client auth
   issuerRef:
     name: myapp-letsncrypt-staging
-  commonName: myapp.newtech.academy
-  #dnsNames:
-  #- www.myapp.newtech.academy
-  acme:
-    config:
-    - http01:
-        ingress: myapp
-      domains:
-      - myapp.newtech.academy
-      #- www.myapp.newtech.academy
+    kind: Issuer
+  commonName: myapp.xxxxx.com
+  dnsNames:
+    - myapp.xxxxx.com

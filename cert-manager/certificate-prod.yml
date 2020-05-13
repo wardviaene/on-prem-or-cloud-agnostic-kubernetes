@@ -1,4 +1,4 @@
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: myapp
@@ -7,7 +7,7 @@ spec:
   secretName: myapp-tls-prod
   issuerRef:
     name: myapp-letsncrypt-prod
-  commonName: myapp.newtech.academy
+  commonName: myapp.xxxxx.com
   #dnsNames:
   #- www.myapp.newtech.academy
   acme:
@@ -15,5 +15,5 @@ spec:
     - http01:
         ingress: myapp
       domains:
-      - myapp.newtech.academy
+      - myapp.xxxxx.com
       #- www.myapp.newtech.academy
