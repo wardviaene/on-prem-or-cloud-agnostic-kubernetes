@@ -17,7 +17,10 @@ spec:
     - client auth
   issuerRef:
     name: myapp-letsncrypt-prod
-    kind: Issuer
-  commonName: myapp.xxxx.com
-  dnsNames:
-    - myapp.xxxx.com
+  commonName: myapp.xxxxx.com
+  acme:
+    config:
+      - http01:
+          ingress: myapp
+        domains:
+          - myapp.xxxxx.com

@@ -14,7 +14,6 @@ spec:
       name: myapp-letsncrypt-staging
     # Enable HTTP01 validations
     solvers:
-    - http01:
-        ingress:
-          class: nginx
-
+      - http01:
+          ingress:
+            class: nginx

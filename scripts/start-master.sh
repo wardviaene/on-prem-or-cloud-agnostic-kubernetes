@@ -30,3 +30,10 @@ helm install --name my-ingress stable/nginx-ingress \
 
 kubectl apply -f $PWD/cert-manager/myapp.yml
 kubectl apply -f $PWD/cert-manager/myapp-ingress.yml
+
+echo 'setup cert-manager'
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install --name cert-manager --namespace cert-manager jetstack/cert-manager
+
+kubectl apply -f $PWD/cert-manager/issuer-staging.yml

@@ -19,5 +19,13 @@ kubectl create -f myapp-ingress.yml
 # install cert-manager
 
 ```
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.15.0/cert-manager.crds.yaml
+helm repo add jetstack https://charts.jetstack.io
+```
+
+```
+helm repo update
+```
+
+```
+helm install  --name cert-manager --namespace cert-manager jetstack/cert-manager
 ```
