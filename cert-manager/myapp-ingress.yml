@@ -4,7 +4,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
   name: myapp
-  namespace: default
+  namespace: cert-manager
 spec:
   tls:
   - secretName: myapp-tls-prod
