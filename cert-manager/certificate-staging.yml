@@ -18,6 +18,6 @@ spec:
   issuerRef:
     name: myapp-letsncrypt-staging
     kind: Issuer
-  commonName: myapp.xxxxx.com
+  commonName: myapp.xxxx.com
   dnsNames:
-    - myapp.xxxxx.com
+    - myapp.xxxx.com

@@ -2,18 +2,22 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: myapp
-  namespace: default
+  namespace: cert-manager
 spec:
   secretName: myapp-tls-prod
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  organization:
+    - jetstack
+  keySize: 2048
+  keyAlgorithm: rsa
+  keyEncoding: pkcs1
+  usages:
+    - server auth
+    - client auth
   issuerRef:
     name: myapp-letsncrypt-prod
-  commonName: myapp.xxxxx.com
-  #dnsNames:
-  #- www.myapp.newtech.academy
-  acme:
-    config:
-    - http01:
-        ingress: myapp
-      domains:
-      - myapp.xxxxx.com
-      #- www.myapp.newtech.academy
+    kind: Issuer
+  commonName: myapp.xxxx.com
+  dnsNames:
+    - myapp.xxxx.com

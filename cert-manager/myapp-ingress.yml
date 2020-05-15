@@ -6,10 +6,10 @@ metadata:
   name: myapp
   namespace: default
 spec:
-  #tls:
-  #- secretName: myapp-tls-staging
-  #  hosts:
-  #  - myapp.newtech.academy
+  tls:
+  - secretName: myapp-tls-prod
+    hosts:
+    - myapp.carlosvalarezo.com
   rules:
     - host: myapp.carlosvalarezo.com
       http:
