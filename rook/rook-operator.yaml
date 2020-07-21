@@ -104,12 +104,15 @@ subjects:
   name: rook-operator
   namespace: rook-system
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rook-operator
   namespace: rook-system
 spec:
+  selector:
+    matchLabels:
+      app: rook-operator
   replicas: 1
   template:
     metadata:

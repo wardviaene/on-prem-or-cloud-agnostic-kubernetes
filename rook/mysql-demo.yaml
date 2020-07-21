@@ -26,13 +26,16 @@ spec:
     requests:
       storage: 10Gi
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-mysql
   labels:
     app: demo
 spec:
+  selector:
+    matchLabels:
+      app: demo
   strategy:
     type: Recreate
   template:
