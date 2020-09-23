@@ -8,6 +8,7 @@ apt-get install -y \
     curl \
     software-properties-common \
     docker.io
+systemctl enable docker.service
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 add-apt-repository \
     "deb https://download.docker.com/linux/$(
