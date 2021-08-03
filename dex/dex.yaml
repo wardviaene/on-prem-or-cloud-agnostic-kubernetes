@@ -53,7 +53,7 @@ spec:
         hostnames:
         - "ldap01.example.com"
       containers:
-      - image: quay.io/coreos/dex:v2.10.0
+      - image: ghcr.io/dexidp/dex:v2.30.0
         name: dex
         command: ["/usr/local/bin/dex", "serve", "/etc/dex/cfg/config.yaml"]
 
