@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "This script has been tested on ubuntu 20.4.3 LTS (focal). If you are using another distribution, you most likely need to edit this script."
+sleep 3
+
 echo "installing docker"
 apt-get update
 apt-get install -y \
@@ -13,11 +16,8 @@ add-apt-repository \
    $(lsb_release -cs) \
    stable"
 
-if [ "$(lsb_release -cs)" == "bionic" ] ; then
-  apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
-else
-  apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
-fi
+apt-get update && apt-get install docker-ce docker-ce-cli containerd.io -y
+
 
 echo "installing kubernetes"
 apt-get update && apt-get install -y apt-transport-https
@@ -36,9 +36,21 @@ apt-get install -y kubelet kubeadm kubectl
 # kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
 
 
+# kubeadm configuration
+echo '# kubeadm-config.yaml
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta3
+#kubernetesVersion: v1.21.0
+networking:
+  podSubnet: 10.244.0.0/16
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd' > kubeadm-config.yaml
+
 # DigitalOcean with firewall (VxLAN with Flannel) - could be resolved in the future by allowing IP-in-IP in the firewall settings
 echo "deploying kubernetes (with canal)..."
-kubeadm init --pod-network-cidr=10.244.0.0/16 # add --apiserver-advertise-address="ip" if you want to use a different IP address than the main server IP
+kubeadm init --config kubeadm-config.yaml # add --apiserver-advertise-address="ip" if you want to use a different IP address than the main server IP
 export KUBECONFIG=/etc/kubernetes/admin.conf
 curl https://docs.projectcalico.org/manifests/canal.yaml -O
 kubectl apply -f canal.yaml
