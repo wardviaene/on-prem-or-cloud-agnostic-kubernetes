@@ -46,7 +46,7 @@ networking:
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
-cgroupDriver: systemd' > kubeadm-config.yaml
+cgroupDriver: cgroupfs' > kubeadm-config.yaml
 
 # DigitalOcean with firewall (VxLAN with Flannel) - could be resolved in the future by allowing IP-in-IP in the firewall settings
 echo "deploying kubernetes (with canal)..."
