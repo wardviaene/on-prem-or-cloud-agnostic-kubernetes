@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This script has been tested on ubuntu 20.4.3 LTS (focal). If you are using another distribution, you most likely need to edit this script."
+echo "This script has been tested on ubuntu 20.4.3 LTS (focal) and ubuntu 22.04.1 LTS (jammy). If you are using another distribution, you most likely need to edit this script."
 sleep 3
 
 echo "installing docker"
@@ -48,9 +48,13 @@ kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: cgroupfs' > kubeadm-config.yaml
 
+# containerd config to work with Kubernetes >=1.26
+echo "SystemdCgroup = true" > /etc/containerd/config.toml
+systemctl restart containerd
+
 # DigitalOcean with firewall (VxLAN with Flannel) - could be resolved in the future by allowing IP-in-IP in the firewall settings
 echo "deploying kubernetes (with canal)..."
 kubeadm init --config kubeadm-config.yaml # add --apiserver-advertise-address="ip" if you want to use a different IP address than the main server IP
 export KUBECONFIG=/etc/kubernetes/admin.conf
-curl https://docs.projectcalico.org/manifests/canal.yaml -O
+curl https://raw.githubusercontent.com/projectcalico/canal/master/k8s-install/canal.yaml -O
 kubectl apply -f canal.yaml
