@@ -56,5 +56,8 @@ systemctl restart containerd
 echo "deploying kubernetes (with canal)..."
 kubeadm init --config kubeadm-config.yaml # add --apiserver-advertise-address="ip" if you want to use a different IP address than the main server IP
 export KUBECONFIG=/etc/kubernetes/admin.conf
-curl https://raw.githubusercontent.com/projectcalico/canal/master/k8s-install/canal.yaml -O
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/canal.yaml -O
 kubectl apply -f canal.yaml
+echo "HINT: "
+echo "run the command: export KUBECONFIG=/etc/kubernetes/admin.conf if kubectl doesn't work"
+
