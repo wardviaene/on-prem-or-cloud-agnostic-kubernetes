@@ -4,7 +4,9 @@ Examples from https://github.com/rook/rook/tree/master/cluster/examples/kubernet
 
 Install rook:
 ```
-kubectl create -f rook-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.11.2/deploy/examples/crds.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.11.2/deploy/examples/common.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.11.2/deploy/examples/operator.yaml
 kubectl create -f rook-cluster.yaml
 ```
 
