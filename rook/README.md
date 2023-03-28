@@ -1,5 +1,7 @@
 # Rook
 
+Note: When creating kubernetes nodes, ensure you have one or more free devices to use. When using DigitalOcean, you can add an unformatted volume to each node droplet.
+
 Examples from https://github.com/rook/rook/tree/master/cluster/examples/kubernetes
 
 Install rook:
@@ -19,6 +21,7 @@ Rook tools:
 ```
 kubectl create -f rook-tools.yaml
 ```
+Note: use ceph status instead of rookctl status
 
 MySQL demo:
 ```
